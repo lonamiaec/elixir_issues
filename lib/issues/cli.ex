@@ -47,5 +47,14 @@ defmodule Issues.CLI do
 
   def process({user, project, count}) do
     Issues.GithubIssues.fetch(user, project)
+    |> process_response
+  end
+
+  def process_response({ :ok, body }), do: body
+
+  def process_response({ :error, error}) do
+    { _, message }  = List.keyfind(error, "message", 0)
+    IO.puts "Error fetching from Github: #{message}"
+    System.halt(2)
   end
 end
