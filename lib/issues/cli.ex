@@ -50,6 +50,7 @@ defmodule Issues.CLI do
     |> process_response
     |> sort_into_ascending_order
     |> Enum.take(count)
+    |> Issues.TableFormatter.print_table_for_columns(["number", "created_at", "title"])
   end
 
   def process_response({ :ok, body }), do: body
